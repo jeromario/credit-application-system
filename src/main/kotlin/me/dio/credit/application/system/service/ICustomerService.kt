@@ -2,10 +2,10 @@ package me.dio.credit.application.system.service
 
 import me.dio.credit.application.system.entity.Customer
 
-interface CustomerService {
+interface ICustomerService {
 
-    fun save(customer: Customer)
-    fun findById(id: Long)
-    fun update(id: Long,customer: Customer)
+    fun save(customer: Customer) : Customer
+    fun findById(id: Long) : Customer
+
     fun delele(id: Long)
 }
