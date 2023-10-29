@@ -1,5 +1,6 @@
 package me.dio.credit.application.system.controller
 
+import jakarta.validation.Valid
 import me.dio.credit.application.system.dto.CustomerDTO
 import me.dio.credit.application.system.dto.CustomerUpdateDTO
 import me.dio.credit.application.system.dto.CustomerView
@@ -24,21 +25,21 @@ import org.springframework.web.bind.annotation.RestController
 class CustomerController(private val customerService: CustomerService) {
 
     @PostMapping
-    fun save(@RequestBody customerDTO: CustomerDTO): ResponseEntity<String> {
+    fun save(@RequestBody @Valid customerDTO: CustomerDTO): ResponseEntity<String> {
         val savedCustomer = customerDTO.toEntity()
         customerService.save(savedCustomer)
         return ResponseEntity.status(HttpStatus.CREATED).body("Customer ${savedCustomer.email} saved!")
     }
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: Long):ResponseEntity<CustomerView>  {
+    fun findById(@PathVariable id: Long): ResponseEntity<CustomerView> {
         val customer = customerService.findById(id)
         return ResponseEntity.ok(CustomerView(customer))
     }
 
     @PatchMapping
     fun update(@RequestParam(value = "customerId") id: Long,
-               @RequestBody customerUpdateDTO: CustomerUpdateDTO): ResponseEntity<CustomerView>{
+               @RequestBody @Valid customerUpdateDTO: CustomerUpdateDTO): ResponseEntity<CustomerView> {
 
         val customer = customerService.findById(id)
         val customerUpdate = customerUpdateDTO.toEntity(customer)
