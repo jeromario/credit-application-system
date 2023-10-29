@@ -8,4 +8,5 @@ class CreditApplicationSystemApplication
 
 fun main(args: Array<String>) {
 	runApplication<CreditApplicationSystemApplication>(*args)
+
 }
