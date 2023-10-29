@@ -1,5 +1,6 @@
 package me.dio.credit.application.system.controller
 
+import jakarta.validation.Valid
 import me.dio.credit.application.system.dto.CreditDTO
 import me.dio.credit.application.system.dto.CreditView
 import me.dio.credit.application.system.dto.CreditViewList
@@ -19,17 +20,17 @@ import java.util.stream.Collectors
 
 @RestController
 @RequestMapping("/api/credits")
-class CreditController (private val creditService: CreditService){
+class CreditController(private val creditService: CreditService) {
 
     @PostMapping
-    fun save(@RequestBody creditDTO: CreditDTO): ResponseEntity<String>{
+    fun save(@RequestBody @Valid creditDTO: CreditDTO): ResponseEntity<String> {
 
         val credit = creditService.save(creditDTO.toEntity())
         return ResponseEntity.status(HttpStatus.CREATED).body("Credit ${credit.creditCode} - Customer ${credit.customer?.firstName} saved!")
     }
 
     @GetMapping
-    fun findAllCustomerId(@RequestParam(value = "customerId") customerId: Long): ResponseEntity<List<CreditViewList>>{
+    fun findAllCustomerId(@RequestParam(value = "customerId") customerId: Long): ResponseEntity<List<CreditViewList>> {
 
         val creditViewLists = creditService.findAllByCustomer(customerId).stream()
                 .map { credit: Credit -> CreditViewList(credit) }
