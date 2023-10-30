@@ -15,8 +15,8 @@ data class CreditDTO(
         val creditValue: BigDecimal,
         @field:Future(message = "Wrong date!")
         val dayFirstInstallment: LocalDate,
-        @field:Min(1, message = "Min 1!")
-        @field:Max(value = 15, message = "Max 15")
+        @field:Min(value =  1, message = "Min 1!")
+        @field:Max(value = 48, message = "Max 48")
         val numberOfInstallments: Int,
         @field:NotNull(message = "Id required!")
         val customerId: Long
