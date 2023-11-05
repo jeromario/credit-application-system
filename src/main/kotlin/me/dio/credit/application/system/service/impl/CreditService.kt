@@ -12,9 +12,7 @@ class CreditService(private val creditRepository: CreditRepository, private val 
 
     override fun save(credit: Credit): Credit {
 
-        if (!this.validDayFirstInstallment(credit.dayFirstInstallment)){
-            throw BusinessException("Invalid Date!")
-        }
+        this.validDayFirstInstallment(credit.dayFirstInstallment)
 
         credit.apply {
             customer = customerService.findById(credit.customer?.id!!)
@@ -34,8 +32,8 @@ class CreditService(private val creditRepository: CreditRepository, private val 
 
     private fun validDayFirstInstallment(dayFirstInstallment: LocalDate): Boolean {
 
-//        return if (dayFirstInstallment.isBefore(LocalDate.now().plusMonths(3))) true
-////        else throw BusinessException("Invalid date!")
-        return dayFirstInstallment.isBefore(LocalDate.now().plusMonths(3))
+        return if (dayFirstInstallment.isBefore(LocalDate.now().plusMonths(3))) true
+        else throw BusinessException("Invalid date!")
+//        return dayFirstInstallment.isBefore(LocalDate.now().plusMonths(3))
     }
 }

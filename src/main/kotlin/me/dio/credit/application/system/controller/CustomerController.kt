@@ -25,10 +25,10 @@ import org.springframework.web.bind.annotation.RestController
 class CustomerController(private val customerService: CustomerService) {
 
     @PostMapping
-    fun save(@RequestBody @Valid customerDTO: CustomerDTO): ResponseEntity<String> {
+    fun save(@RequestBody @Valid customerDTO: CustomerDTO): ResponseEntity<CustomerView> {
         val savedCustomer = customerDTO.toEntity()
         customerService.save(savedCustomer)
-        return ResponseEntity.status(HttpStatus.CREATED).body("Customer ${savedCustomer.email} saved!")
+        return ResponseEntity.status(HttpStatus.CREATED).body(CustomerView(savedCustomer))
     }
 
     @GetMapping("/{id}")
@@ -44,7 +44,7 @@ class CustomerController(private val customerService: CustomerService) {
         val customer = customerService.findById(id)
         val customerUpdate = customerUpdateDTO.toEntity(customer)
         val customerUpdated = customerService.save(customerUpdate)
-        return ResponseEntity.status(HttpStatus.CREATED).body(CustomerView(customerUpdated))
+        return ResponseEntity.ok(CustomerView(customerUpdated))
 
     }
 
